@@ -1,0 +1,54 @@
+extends ../layout
+
+block content
+  div(class='row')
+    div(class='main-content')
+      ol(class='list-group list-group-lg')
+        li(id='survey-list-item', class='list-group-item')
+          div(class='panel-section')
+            div(class='panel-description')
+              div(class='panel-title')
+                p #{survey.title}
+              div(class='panel-details')
+                p #{survey.description} (created #{survey.created_at} ago.)
+              div(class='panel-details')
+                p Winners Reward: #{survey.reward.winners_description} (Redeem Link: #{survey.reward.winners_redeem_link})
+              div(class='panel-details')
+                p Default Reward: #{survey.reward.default_description} (Redeem Link: #{survey.reward.default_redeem_link})
+              div(class='panel-details')
+                p Survey Type: #{survey.survey_type}
+
+              div(class='btn-group-vertical', role='group')
+                a(class='btn btn-primary' href=survey.url + '/edit') Edit
+
+                if survey.published
+                  form(method='POST', action=survey.url + '/unpublish', onsubmit='return confirm("Are you sure you want to unpublish this survey?")')
+                    button.btn.btn-info(type='submit') Unpublish
+                else
+                  form(method='POST', action=survey.url + '/publish', onsubmit='return confirm("Are you sure you want to publish this draft?")')
+                    button.btn.btn-info(type='submit') Publish Draft
+
+                if survey.active
+                  form(method='POST', action=survey.url + '/deactivate', onsubmit='return confirm("Are you sure you want to deactivate this?")')
+                    button.btn.btn-warning(type='submit') Deactivate
+                else
+                  form(method='POST', action=survey.url + '/activate', onsubmit='return confirm("Are you sure you want to activate this?")')
+                    button.btn.btn-warning(type='submit') Activate
+
+                form(method='POST', action=survey.url + '/destroy', onsubmit='return confirm("This survey will be gone forever. Are you sure?")')
+                    button.btn.btn-danger(type='submit') Delete Survey
+
+            div(class='panel-content')
+              div
+                div(class='add-first add-title')
+                  if survey.banner
+                    if survey.bannerModel.bannerType()=='video'
+                      video(width="350", height="350", controls=true, src=survey.bannerModel.bannerUrl)
+                    else
+                      img(width="350", height="350", src=survey.bannerModel.bannerUrl)
+
+                  each survey_location in survey.survey_locations
+                    include ./survey_locations/show
+
+        each question in survey.questions
+          include ../questions/show

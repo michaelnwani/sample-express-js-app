@@ -1,0 +1,31 @@
+li(class='list-group-item question-list-item')
+  div(class='panel-section')
+    div(class='panel-description')
+      div(class='panel-title') #{question.description}
+
+      div(class='panel-description')
+        if question.banner
+          if question.bannerModel.bannerType()=='video'
+            video(width="350", height="350", controls=true, src=question.bannerModel.bannerUrl)
+          else
+            img(width="350", height="350", src=question.bannerModel.bannerUrl)
+
+      div(class='btn-group-vertical', role='group')
+        if question.active
+          form(method='POST', action=survey.url + '/' + question.url + '/disable', onsubmit='return confirm("Are you sure you want to disable this question?")')
+            button.btn.btn-warning(type='submit') Disable
+        else
+          form(method='POST', action=survey.url + '/' + question.url + '/enable', onsubmit='return confirm("This question will become visible to users. Are you sure you want to enable it?")')
+            button.btn.btn-warning(type='submit') Enable
+
+    div(class='panel-content')
+      div
+        div(class='add-first add-title')
+          div(class='form-group')
+            if question.possible_answers[0].freeform
+              u Freeform Answer
+            else
+              u Possible Answers
+
+          each possible_answer in question.possible_answers
+            include ../possible_answers/show

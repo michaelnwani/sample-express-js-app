@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  div(class='row')
+    div(class='main-content')
+      ol(class='list-group list-group-lg')
+        li(id='survey-list-item', class='list-group-item')
+          div(class='panel-section')
+            div(class='panel-description')
+              div(class='panel-title')
+                Survey
+              div(class='panel-details')
+                | A survey is made up of questions, 
+                | with varying (potential) answers, 
+                | and a potential reward when completed.
+
+            div(class='panel-content')
+              div
+                div(class='add-first add-title')
+                  form(method='POST' action='')
+                    div(class='form-group')
+                      label(for='title') Title:
+                      input.form-control(type='text', placeholder='Enter a survey title' name='title' required='true' value=(undefined === book ? '' : book.title) )
+
+                    div(class='form-group')
+                      label(for='description') Description:
+                      textarea.form-control(type='text', placeholder='Enter a survey description' name='description®' required='true' value=(undefined === book ? '' : book.title) )
+
+      

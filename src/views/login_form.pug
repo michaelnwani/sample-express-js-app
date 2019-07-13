@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  div(class='row')
+    div(class='col-md-6 col-md-offset-3')
+      form(method='POST' action='')
+        div.form-group
+          label(for='email') Email
+          input#email.form-control(type='text' placeholder='Enter your email' name='email' required='true' value='')
+          label(for='password') Password
+          input#password.form-control(type='password' placeholder='Enter your password' name='password' required='true' value='')
+        button.btn.btn-primary(type='submit') Log in
+      if errors 
+        ul
+          for error in errors
+            li!= error.msg
